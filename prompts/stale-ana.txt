@@ -1,0 +1,1 @@
+¿Qué sabemos del bug de VIP-WEEK (facturas con un total menor al cobrado y gold sin descuento la última noche)? Busca en la memoria del equipo y dime si lo que encuentres sigue siendo cierto en este código. No cambies nada.

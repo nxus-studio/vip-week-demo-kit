@@ -34,6 +34,35 @@ México. Arranca el agente con `TZ=UTC`, por ejemplo `TZ=UTC claude`.
 `./setup.sh <demo> reset` regresa el clon a `origin/main`. Descarta los cambios locales y el `.lemma/`
 del proyecto.
 
+## Sin teclear
+
+**Una sesión con el prompt ya enviado** (Claude Code):
+
+```bash
+~/vip-week-demo-kit/session.sh ~/vip-week-demo act1-juan
+```
+
+Los prompts están en `prompts/`: `act1-juan`, `act1-ana`, `stale-ana`, `correct-ana`, `correct-juan`,
+`sap-juan` y `sap-ana`. `session.sh` arranca con `TZ=UTC`, sin la memoria propia de Claude Code (lo que
+recuerde el agente viene de Lemma) y con las tools de Lemma, git, jest y lectura ya aprobadas. No escribe
+nada en el demo. Se sale con `/exit`. Con otro agente, copia el texto de `prompts/`.
+
+**Todo el guion, paso a paso:**
+
+```bash
+~/vip-week-demo-kit/presenter/pane.sh juan       # una terminal
+~/vip-week-demo-kit/presenter/pane.sh ana        # otra (en otra laptop con Cloud, o después en la misma)
+```
+
+Cada panel muestra qué sigue y qué hay que señalar. Enter lo corre, `s` lo salta, `/exit` cierra la
+sesión de Claude y pasa al siguiente paso. En una sola laptop sin Cloud, corre los pasos de Juan y luego
+los de Ana; el paso SAP de Ana mueve `~/finanzas` a `~/.finanzas-de-juan` para que Ana no lo vea.
+
+**Dos "laptops" en una Mac** (lo que usamos en la charla): `presenter/demo-docker-macos.sh` prepara dos
+contenedores Docker, `laptop-juan` y `laptop-ana`, cada uno con su propio login de Claude Code y su key
+de Lemma Cloud. Los limpia y abre una ventana de Warp (o de Terminal con `--terminal`) con JUAN a la
+izquierda y ANA a la derecha. El script explica qué supone de cada contenedor.
+
 ## Qué se demuestra (y qué no)
 
 1. Una sesión investiga y guarda lo que aprendió, **ligado a las funciones de las que depende**.

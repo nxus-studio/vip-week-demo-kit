@@ -1,0 +1,1 @@
+Finanzas dice que los totales de nuestras facturas no cuadran por centavos con SAP, sobre todo en la semana VIP. Haz que nuestro cálculo de totales cuadre exactamente con SAP. Mantén los tests en verde y agrega tests de regresión.

@@ -1,0 +1,1 @@
+Finanzas reportó dos problemas con la promoción VIP-WEEK: las facturas reimpresas y el reporte de ventas muestran un total menor al cobrado, y los pedidos gold de la última noche (7 de marzo, hora de Ciudad de México) no recibieron descuento. Arregla los dos. Mantén los tests en verde y agrega tests de regresión.

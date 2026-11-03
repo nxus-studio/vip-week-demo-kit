@@ -1,0 +1,1 @@
+La memoria del equipo sobre VIP-WEEK sale STALE porque isActive ahora se llama isPromotionActive. Búscala, revisa el código y corrígela en la memoria del equipo con update_memory. No cambies código.
