@@ -1,0 +1,70 @@
+From b0d5eb37251dec85ac20949c2e6ca4a3928afa55 Mon Sep 17 00:00:00 2001
+From: dev <dev@example.com>
+Date: Mon, 2 Nov 2026 20:09:50 -0600
+Subject: [PATCH] fix(VIP-WEEK): promotion no longer compounds; window uses
+ store timezone
+
+---
+ src/orders.ts     |  4 ++--
+ src/promotions.ts | 18 ++++++++++--------
+ 2 files changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/src/orders.ts b/src/orders.ts
+index 24ac87d..83a6c84 100644
+--- a/src/orders.ts
++++ b/src/orders.ts
+@@ -66,9 +66,9 @@ function pricedLinesFor(order: Order, catalog: Catalog): PricedLine[] {
+ }
+ 
+ export function orderTotals(order: Order, catalog: Catalog): Totals {
+-  const priced: PricedLine[] = pricedLinesFor(order, catalog);
++  const base: PricedLine[] = pricedLinesFor(order, catalog);
+   const promo = activePromotion(order.tier, order.createdAt);
+-  if (promo) applyPromotion(priced, promo);
++  const priced = promo ? applyPromotion(base, promo) : base;
+   const subtotal = subtotalCents(priced);
+   const tax = taxCents(priced);
+   const shipping = shippingCents(subtotal);
+diff --git a/src/promotions.ts b/src/promotions.ts
+index ff53239..8b47c1b 100644
+--- a/src/promotions.ts
++++ b/src/promotions.ts
+@@ -1,4 +1,5 @@
+ import { Tier } from './customers';
++import { STORE_TZ } from './config';
+ import { roundCents } from './money';
+ import { PricedLine } from './pricing';
+ 
+@@ -15,10 +16,13 @@ export const PROMOTIONS: Promotion[] = [
+   { code: 'VIP-WEEK', percentOff: 10, from: '2026-03-01', to: '2026-03-07', tiers: ['gold'] },
+ ];
+ 
++function storeDay(at: number): string {
++  return new Intl.DateTimeFormat('en-CA', { timeZone: STORE_TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(at);
++}
++
+ export function isActive(promo: Promotion, at: number): boolean {
+-  const start = new Date(`${promo.from}T00:00:00`).getTime();
+-  const end = new Date(`${promo.to}T23:59:59`).getTime();
+-  return at >= start && at <= end;
++  const day = storeDay(at);
++  return day >= promo.from && day <= promo.to;
+ }
+ 
+ export function activePromotion(tier: Tier | undefined, at: number): Promotion | undefined {
+@@ -26,9 +30,7 @@ export function activePromotion(tier: Tier | undefined, at: number): Promotion |
+   return PROMOTIONS.find((p) => p.tiers.includes(tier) && isActive(p, at));
+ }
+ 
+-/** Lowers the unit price of every line by the promotion's percentage. */
+-export function applyPromotion(lines: PricedLine[], promo: Promotion): void {
+-  for (const line of lines) {
+-    line.unitCents = roundCents((line.unitCents * (100 - promo.percentOff)) / 100);
+-  }
++/** Returns the lines with the unit price lowered by the promotion's percentage; the input is left untouched. */
++export function applyPromotion(lines: PricedLine[], promo: Promotion): PricedLine[] {
++  return lines.map((line) => ({ ...line, unitCents: roundCents((line.unitCents * (100 - promo.percentOff)) / 100) }));
+ }
+-- 
+2.50.1 (Apple Git-155)
+

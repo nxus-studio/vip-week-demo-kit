@@ -1,0 +1,34 @@
+From 373a39af8259d167606d4c6b2ea0862ea7d5d5cb Mon Sep 17 00:00:00 2001
+From: dev <dev@example.com>
+Date: Mon, 2 Nov 2026 20:09:49 -0600
+Subject: [PATCH] promotions: rename isActive to isPromotionActive
+
+---
+ src/promotions.ts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/promotions.ts b/src/promotions.ts
+index ff53239..e060e9e 100644
+--- a/src/promotions.ts
++++ b/src/promotions.ts
+@@ -15,7 +15,7 @@ export const PROMOTIONS: Promotion[] = [
+   { code: 'VIP-WEEK', percentOff: 10, from: '2026-03-01', to: '2026-03-07', tiers: ['gold'] },
+ ];
+ 
+-export function isActive(promo: Promotion, at: number): boolean {
++export function isPromotionActive(promo: Promotion, at: number): boolean {
+   const start = new Date(`${promo.from}T00:00:00`).getTime();
+   const end = new Date(`${promo.to}T23:59:59`).getTime();
+   return at >= start && at <= end;
+@@ -23,7 +23,7 @@ export function isActive(promo: Promotion, at: number): boolean {
+ 
+ export function activePromotion(tier: Tier | undefined, at: number): Promotion | undefined {
+   if (!tier) return undefined;
+-  return PROMOTIONS.find((p) => p.tiers.includes(tier) && isActive(p, at));
++  return PROMOTIONS.find((p) => p.tiers.includes(tier) && isPromotionActive(p, at));
+ }
+ 
+ /** Lowers the unit price of every line by the promotion's percentage. */
+-- 
+2.50.1 (Apple Git-155)
+
