@@ -6,7 +6,11 @@ export de SAP del acto 2 y lo que medimos.
 
 **Clónalo fuera del repo del demo.** El agente puede leer cualquier archivo y cualquier rama de git de
 su proyecto. Por eso las respuestas viven aquí, y estos scripts trabajan sobre el clon del demo desde
-fuera.
+fuera. Nada en el demo (ni archivos, ni ramas, ni mensajes de commit) menciona este kit; el enlace está
+solo en la descripción del repo en GitHub, que el agente no ve. No es una barrera de seguridad: un
+agente que corre `find /` lo encuentra, así que tampoco lo menciones en tus prompts. Si quieres estar
+seguro, revisa al final los comandos del agente (en Claude Code, la transcripción de la sesión) y busca
+`vip-week-demo-kit`.
 
 ```bash
 git clone https://github.com/nxus-studio/vip-week-demo      ~/vip-week-demo
@@ -184,5 +188,9 @@ claro.
 En un ensayo, con todo en el mismo repo, el agente de Ana encontró el export de SAP en una rama con
 `git log --all` y corrió los tests ocultos mientras arreglaba. Ese ensayo no vale como prueba. Desde
 entonces, nada que dé la respuesta vive en el repo del demo.
+
+En el siguiente ensayo, ya con el kit aparte, el README del demo todavía lo mencionaba, y el agente de
+Ana lo buscó con `find`. Lo encontró y no lo abrió (SAP 4/4 con la memoria de Juan). Desde entonces el
+demo no lo menciona en ningún lado.
 
 MIT. Datos y código ficticios.
